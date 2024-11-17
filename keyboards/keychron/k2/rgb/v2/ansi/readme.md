@@ -27,3 +27,25 @@ Enter the bootloader in 2 ways:
 
 * **Physical Bootloader Pins**: Turn off the keyboard, Using a pair of tweezers or a paperclip, short the 2 pins left from spacebar switch holes and hold the tweezers on the pins while turning the keyboard on, this should put it into the bootloader.
 * **Keycode in layout**: Press the key mapped to `QK_BOOT` if it is available. In the default keymap Fn+Esc.
+
+
+Digital pinwheel is slick
+Jellybean raindrops I think is pastel-like color
+
+gradient_left_right and gradient_up_down are the same, but the direction of 
+the gradient is different; both are rainbows
+
+breathing is just red breathing
+
+solid multisplash is light shooting out from the keys that are typed
+(typically red).
+
+cycle all is just full keyboard cycling between different colors
+of the rainbow
+
+i think digital rain is where the keyboard is mostly unlit with "rain" falling
+down the keys as LED light
+
+Ahh OK so matrix lighting is here:
+https://docs.qmk.fm/features/rgb_matrix#rgb-matrix-effects
+
