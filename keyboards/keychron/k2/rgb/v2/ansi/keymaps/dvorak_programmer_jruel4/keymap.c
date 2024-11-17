@@ -23,10 +23,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
 enum layer_names {
-    WIN_BASE = 0,
-    WIN_FN   = 1,
-    MAC_BASE = 2,
-    MAC_FN   = 3,
+    DVORAK_WIN_BASE   = 0,
+    DW_FN             = 1,
+    DVORAK_MAC_BASE   = 2,
+    DM_FN             = 3,
+    WIN_BASE          = 4,
+    WIN_FN            = 5,
+    MAC_BASE          = 6,
+    MAC_FN            = 7,
 };
 #define KC_TASK LGUI(KC_TAB)        // Task viewer
 #define KC_FLXP LGUI(KC_E)          // Windows file explorer
@@ -137,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,                _______,                _______  ,
       _______,                _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,                _______,    RGB_SAI,    _______  ,
       _______,    _______,    _______,                                        _______,                                        _______,    _______,    _______,    RGB_HUD,    RGB_SAD,    RGB_HUI
-  )
+  ),
 
 
 
