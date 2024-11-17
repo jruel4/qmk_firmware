@@ -253,6 +253,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+
+/*
+ *
+ * TODO:
+ * 
+ * Add navigation layer when space is pressed 
+ *  - CTHN should be arrow keys when space is held
+ *  - G/R is previous/next word
+ *  - F/L should be 1/2 PgUp/PgDown
+ *  - -/D should be start/end of line (need to remap both Vim and Alacritty commands for this)
+ *  
+ * We still have mod+Layer as well. TBD on that.
+ * 
+ * Other useful ones:
+ * split pane vertical/horizontal
+ * navigate panes
+ * new window
+ * go to window
+ * 
+
+
+ */
+
+
 uint8_t mod_state;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Store the current modifier state in the variable for later reference
