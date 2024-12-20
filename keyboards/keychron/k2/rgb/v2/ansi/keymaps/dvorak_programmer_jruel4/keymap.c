@@ -47,13 +47,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     *****************************************************************************************************************
     * ESC  * F1   * F2   * F3   * F4   * F5   * F6   * F7   * F8   * F9   * F10  * F11  * F12  * PSCR * DEL  * RMOD *
     *****************************************************************************************************************
-    * ~    * 1    * 2    * 3    * 4    * 5    * 6    * 7    * 8    * 9    * 0    * *    * =    * BSPC        * PGUP *
+    * ~    * /    * 7    * 5    * 3    * 1    * 9    * 0    * 2    * 4    * 6    * 8    * =    * BSPC        * PGUP *
     *****************************************************************************************************************
-    * TAB     * Q    * W    * E    * R    * T    * Y    * U    * I    * O    * P    * [    * ]    * \        * PGDN *
+    * TAB     * ;    * Y    * O    * P    * .    * F    * G    * C    * R    * L    * [    * ]    * \        * PGDN *
     *****************************************************************************************************************
-    * CAPS      * A    * S    * D    * F    * G    * H    * J    * K    * L    * ;    * '    * ENT           * HOME *
+    * CAPS      * A    * I    * E    * U    * ,    * D    * H    * T    * N    * S    * -    * ENT           * HOME *
     *****************************************************************************************************************
-    * LSFT         * Z    * X    * C    * V    * B    * N    * M    * ,    * .    * /    * RSFT       * UP   * END  *
+    * LSFT         * '    * Q    * J    * K    * X    * B    * M    * W    * V    * Z    * RSFT       * UP   * END  *
     *****************************************************************************************************************
     * LCTL  * LALT  * LGUI  * SPC                                         * LGUI * FN   * RCTL * LEFT * DOWN * RGHT *
     *****************************************************************************************************************
@@ -63,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_ESC,     KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,      KC_F6,      KC_F7,      KC_F8,      KC_F9,      KC_F10,     KC_F11,     KC_F12,     KC_MSCR,    KC_DEL,     RGB_MOD  ,
       KC_GRV,     KC_SLSH,    KC_7,       KC_5,       KC_3,       KC_1,       KC_9,       KC_0,       KC_2,       KC_4,       KC_6,       KC_8,       KC_EQL,     KC_BSPC,                KC_PGUP  ,
       KC_TAB,     KC_SCLN,    KC_Y,       KC_O,       KC_P,       KC_COMM,    KC_F,       KC_G,       KC_C,       KC_R,       KC_L,       KC_LBRC,    KC_RBRC,    KC_BSLS,                KC_PGDN  ,
-      KC_CAPS,    KC_A,       KC_I,       KC_E,       KC_U,       KC_DOT,     KC_D,       KC_H,       KC_T,       KC_N,       KC_S,       KC_MINS,                KC_ENT,                 KC_HOME  ,
+      MO(NAV),    KC_A,       KC_I,       KC_E,       KC_U,       KC_DOT,     KC_D,       KC_H,       KC_T,       KC_N,       KC_S,       KC_MINS,                KC_ENT,                 KC_HOME  ,
       KC_LSFT,                KC_QUOT,    KC_Q,       KC_J,       KC_K,       KC_X,       KC_B,       KC_M,       KC_W,       KC_V,       KC_Z,                   KC_RSFT,    KC_UP,      KC_END   ,
       KC_LCTL,    KC_LALT,    KC_LGUI,                                        KC_SPC,                                         KC_RGUI,    MO(DM_FN),  KC_RCTL,    KC_LEFT,    KC_DOWN,    KC_RGHT
   ),
@@ -92,6 +92,111 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______,                _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,                _______,    RGB_SAI,    _______  ,
       _______,    _______,    _______,                                        _______,                                        _______,    _______,    _______,    RGB_HUD,    RGB_SAD,    RGB_HUI
   ),
+
+
+
+
+
+/*
+ *
+ * TODO:
+ * 
+ * Add navigation layer when space is pressed 
+ *  - CTHN should be arrow keys when space is held
+ *  - G/R is previous/next word
+ *  - F/L should be 1/2 PgUp/PgDown
+ *  - -/D should be start/end of line (need to remap both Vim and Alacritty commands for this)
+ *  
+ * We still have mod+Layer as well. TBD on that.
+ * 
+ * Other useful ones:
+ * split pane vertical/horizontal
+ * navigate panes
+ * new window
+ * go to window
+ * 
+
+Also go to specific apps (Slack, Firefox, etc...)
+
+Number pad as well
+
+QJK for cut / copy / paste (remapped to ctrl x/c/v)
+
+I should also utilize combos
+- PREVWORD+UP can be half pgup, NEXTWD+UP can be pageup
+- LFT+DWN can be half pgdwn, RIGHT+DWN can be page down
+- RIGHT+lh
+
+
+ */
+
+
+  /* 
+    =========  ========  =======   =======   ======   NAVIGATION   ======   =======   ========  ========  ===========
+    *****************************************************************************************************************
+    * ESC  * F1   * F2   * F3   * F4   * F5   * F6   * F7   * F8   * F9   * F10  * F11  * F12  * PSCR * DEL  * RMOD *
+    *****************************************************************************************************************
+    * ~    * /    * 7    * 5    * 3    * 1    * 9    * 0    * 2    * 4    * 6    * 8    * =    * BSPC        * PGUP *
+    *****************************************************************************************************************
+    * TAB     * ;    * Y    * O    * P    * ,    *HFPGUP * PRWRD * UP *NXTWD *HFPGDN * [   * ]    * \        * PGDN *
+    *****************************************************************************************************************
+    * CAPS      * A    * I    * E    * U    * .    *STRTLN * LFT  * DN   * RGHT *ENDLN * -    * ENT          * HOME *
+    *****************************************************************************************************************
+    * LSFT         * '    * Q    * J    * K    * X    * B    * M    * W    * V    * Z    * RSFT       * UP   * END  *
+    *****************************************************************************************************************
+    * LCTL  * LALT  * LGUI  * SPC                                         * LGUI * FN   * RCTL * LEFT * DOWN * RGHT *
+    *****************************************************************************************************************
+  */
+  [NAV] = LAYOUT_ansi(
+  /*  0           1           2           3           4           5           6           7           8           9           10          11          12          13          14          15       */
+      KC_ESC,     KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,      KC_F6,      KC_F7,      KC_F8,      KC_F9,      KC_F10,     KC_F11,     KC_F12,     KC_MSCR,    KC_DEL,     RGB_MOD  ,
+      KC_GRV,     KC_SLSH,    KC_7,       KC_5,       KC_3,       KC_1,       KC_9,       KC_0,       KC_2,       KC_4,       KC_6,       KC_8,       KC_EQL,     KC_BSPC,                KC_PGUP  ,
+      KC_TAB,     KC_SCLN,    KC_Y,       KC_O,       KC_P,       KC_COMM,    KC_F,       KC_G,       KC_C,       KC_R,       KC_L,       KC_LBRC,    KC_RBRC,    KC_BSLS,                KC_PGDN  ,
+      MO(NAV),    KC_A,       KC_I,       KC_E,       KC_U,       KC_DOT,     KC_D,       KC_H,       KC_T,       KC_N,       KC_S,       KC_MINS,                KC_ENT,                 KC_HOME  ,
+      KC_LSFT,                KC_QUOT,    KC_Q,       KC_J,       KC_K,       KC_X,       KC_B,       KC_M,       KC_W,       KC_V,       KC_Z,                   KC_RSFT,    KC_UP,      KC_END   ,
+      KC_LCTL,    KC_LALT,    KC_LGUI,                                        KC_SPC,                                         KC_RGUI,    MO(DM_FN),  KC_RCTL,    KC_LEFT,    KC_DOWN,    KC_RGHT
+  ),
+
+
+
+
+
+
+
+  /* 
+    =========  ========  =======   =======   ======   Number Pad   ======   =======   ========  ========  ===========
+    *****************************************************************************************************************
+    * ESC  * F1   * F2   * F3   * F4   * F5   * F6   * F7   * F8   * F9   * F10  * F11  * F12  * PSCR * DEL  * RMOD *
+    *****************************************************************************************************************
+    * ~    *      *      *      *      *      *      * 7    * 8    * 9    * +    *      *      * BSPC        * PGUP *
+    *****************************************************************************************************************
+    * TAB     *      *      *      *      *      *      * 4    * 5    * 6    * -    *     *     * \          * PGDN *
+    *****************************************************************************************************************
+    * CAPS      *      *      *      *      *      *       * 1    * 2    * 3    * ENT  *       * ENT         * HOME *
+    *****************************************************************************************************************
+    * LSFT         *      *      *      *      *      *      * 0    * .    * /    *      * RSFT       * UP   * END  *
+    *****************************************************************************************************************
+    * LCTL  * LALT  * LGUI  * SPC                                         * LGUI * FN   * RCTL * LEFT * DOWN * RGHT *
+    *****************************************************************************************************************
+  */
+  [NAV] = LAYOUT_ansi(
+  /*  0           1           2           3           4           5           6           7           8           9           10          11          12          13          14          15       */
+      QK_BOOT,    KC_BRID,    KC_BRIU,    KC_TASK,    KC_FLXP,    RGB_VAD,    RGB_VAI,    KC_MPRV,    KC_MPLY,    KC_MNXT,    KC_MUTE,    KC_VOLD,    KC_VOLU,    _______,    KC_INS,     RGB_TOG  ,
+      _______,    _______,    _______,    _______,    _______,    _______,    _______,    KC_7,       KC_8,       KC_9,       KC_PLUS,    _______,    _______,    _______,                _______  ,
+      KC_TAB,     KC_SCLN,    KC_Y,       KC_O,       KC_P,       KC_COMM,    KC_F,       KC_4,       KC_5,       KC_6,       _______,    _______,    _______,    _______,                _______  ,
+      _______,    _______,    _______,    _______,    _______,    _______,    _______,    KC_1,       KC_2,       KC_3,       KC_ENT,     _______,                _______,                _______  ,
+      _______,                _______,    _______,    _______,    _______,    _______,    KC_0,       KC_DOT,     KC_SLSH,    _______,    _______,                _______,    _______,    _______  ,
+      _______,    _______,    _______,                                        _______,                                        _______,    _______,    _______,    _______,    _______,    _______
+  ),
+
+
+
+
+
+
+
+
+
 
   /*
     *****************************************************************************************************************
@@ -244,7 +349,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   */
   [MAC_FN] = LAYOUT_ansi(
   /*  0           1           2           3           4           5           6           7           8           9           10          11          12          13          14          15       */
-      Q_RESET,      KC_BRID,    KC_BRIU,    KC_MSSN,    KC_FIND,    RGB_VAD,    RGB_VAI,    KC_MPRV,    KC_MPLY,    KC_MNXT,    KC_MUTE,    KC_VOLD,    KC_VOLU,    KC_MSNP,    KC_INS,     RGB_TOG  ,
+      Q_RESET,    KC_BRID,    KC_BRIU,    KC_MSSN,    KC_FIND,    RGB_VAD,    RGB_VAI,    KC_MPRV,    KC_MPLY,    KC_MNXT,    KC_MUTE,    KC_VOLD,    KC_VOLU,    KC_MSNP,    KC_INS,     RGB_TOG  ,
       _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,                _______  ,
       _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,                _______  ,
       _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,                _______,                _______  ,
@@ -254,27 +359,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 
-/*
- *
- * TODO:
- * 
- * Add navigation layer when space is pressed 
- *  - CTHN should be arrow keys when space is held
- *  - G/R is previous/next word
- *  - F/L should be 1/2 PgUp/PgDown
- *  - -/D should be start/end of line (need to remap both Vim and Alacritty commands for this)
- *  
- * We still have mod+Layer as well. TBD on that.
- * 
- * Other useful ones:
- * split pane vertical/horizontal
- * navigate panes
- * new window
- * go to window
- * 
 
-
- */
 
 
 uint8_t mod_state;
