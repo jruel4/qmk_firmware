@@ -38,8 +38,7 @@ enum layer_names {
 #define KC_MSNP LSFT(LGUI(KC_4))    // Mac snip tool
 
 // Save space on the keymap
-#define NUMTAB LT(NUM, KC_TAB)
-#define NAVCAPS MO(NAV)
+#define TAP_TAB LT(NAV, KC_TAB)
 
 // Simplify
 #define PRESS(...) { if (record->event.pressed) {                         \
@@ -52,13 +51,19 @@ enum layer_names {
     }                                                                     \
 } return false;  }
 
+#define UNDO LGUI(KC_Z)
+#define REDO LSFT(LGUI(KC_Z))
+#define CUT LGUI(KC_X)
+#define COPY LGUI(KC_C)
+#define PASTE LGUI(KC_V)
+
 enum custom_keycodes {
-    CTRL_Z = SAFE_RANGE, // Starts after the reserved range of keycodes
-    CTRL_X,
-    CTRL_C,
-    CTRL_V,
-    CTRL_Y,
-    HALF_PGUP,
+//    UNDO = SAFE_RANGE, // Starts after the reserved range of keycodes
+//    CUT,
+//    COPY,
+//    PASTE,
+//    REDO,
+    HALF_PGUP = SAFE_RANGE,
     HALF_PGDN,
     PREV_WORD,
     NEXT_WORD,
@@ -88,10 +93,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /*  0           1           2           3           4           5           6           7           8           9           10          11          12          13          14          15       */
       KC_ESC,     KC_F1,      KC_F2,      KC_F3,      KC_F4,      KC_F5,      KC_F6,      KC_F7,      KC_F8,      KC_F9,      KC_F10,     KC_F11,     KC_F12,     KC_MSCR,    KC_DEL,     RGB_MOD  ,
       KC_GRV,     KC_SLSH,    KC_1,       KC_2,       KC_3,       KC_4,       KC_5,       KC_6,       KC_7,       KC_8,       KC_9,       KC_0,       KC_EQL,     KC_BSPC,                KC_PGUP  ,
-      NUMTAB,     KC_SCLN,    KC_Y,       KC_O,       KC_P,       KC_COMM,    KC_F,       KC_G,       KC_C,       KC_R,       KC_L,       KC_LBRC,    KC_RBRC,    KC_BSLS,                KC_PGDN  ,
-      NAVCAPS,    KC_A,       KC_I,       KC_E,       KC_U,       KC_DOT,     KC_D,       KC_H,       KC_T,       KC_N,       KC_S,       KC_MINS,                KC_ENT,                 KC_HOME  ,
+      TAP_TAB,    KC_SCLN,    KC_Y,       KC_O,       KC_P,       KC_COMM,    KC_F,       KC_G,       KC_C,       KC_R,       KC_L,       KC_LBRC,    KC_RBRC,    KC_BSLS,                KC_PGDN  ,
+      MO(NUM),    KC_A,       KC_I,       KC_E,       KC_U,       KC_DOT,     KC_D,       KC_H,       KC_T,       KC_N,       KC_S,       KC_MINS,                KC_ENT,                 KC_HOME  ,
       KC_LSFT,                KC_QUOT,    KC_Q,       KC_J,       KC_K,       KC_X,       KC_B,       KC_M,       KC_W,       KC_V,       KC_Z,                   KC_RSFT,    KC_UP,      KC_END   ,
-      KC_LCTL,    KC_LALT,    KC_LGUI,                                        KC_SPC,                                         KC_RGUI,    MO(FN),  KC_RCTL,    KC_LEFT,    KC_DOWN,    KC_RGHT
+      KC_LCTL,    KC_LALT,    KC_LGUI,                                        KC_SPC,                                         KC_RGUI,    MO(FN),     KC_RCTL,    KC_LEFT,    KC_DOWN,    KC_RGHT
   ),
 
   /*
@@ -207,11 +212,11 @@ I should also utilize combos
   */
   [NUM] = LAYOUT_ansi(
   /*  0           1           2           3           4           5           6           7           8           9           10          11          12          13          14          15       */
-      QK_BOOT,    KC_BRID,    KC_BRIU,    KC_TASK,    KC_FLXP,    RGB_VAD,    RGB_VAI,    KC_MPRV,    KC_MPLY,    KC_MNXT,    KC_MUTE,    KC_VOLD,    KC_VOLU,    _______,    KC_INS,     RGB_TOG  ,
+      _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______,    _______  ,
       _______,    _______,    _______,    _______,    _______,    _______,    _______,    KC_7,       KC_8,       KC_9,       KC_PLUS,    _______,    _______,    _______,                _______  ,
-      _______,    CTRL_Z,     CTRL_X,     CTRL_C,     CTRL_V,     _______,    _______,    KC_4,       KC_5,       KC_6,       _______,    _______,    _______,    _______,                _______  ,
-      _______,    CTRL_Y,     _______,    _______,    _______,    _______,    _______,    KC_1,       KC_2,       KC_3,       KC_ENT,     _______,                _______,                _______  ,
-      _______,                _______,    _______,    _______,    _______,    _______,    KC_0,       KC_DOT,     KC_SLSH,    _______,    _______,                _______,    _______,    _______  ,
+      _______,    _______,    UNDO,       REDO,       _______,    _______,    _______,    KC_4,       KC_5,       KC_6,       _______,    _______,    _______,    _______,                _______  ,
+      _______,    _______,    CUT,        COPY,       PASTE,      _______,    _______,    KC_1,       KC_2,       KC_3,       KC_ENT,     _______,                _______,                _______  ,
+      _______,                _______,    _______,    _______,    _______,    _______,    _______,    KC_0,       KC_DOT,     KC_SLSH,    _______,                _______,    _______,    _______  ,
       _______,    _______,    _______,                                        _______,                                        _______,    _______,    _______,    _______,    _______,    _______
   ),
 
@@ -230,11 +235,11 @@ I should also utilize combos
 };
 
 
-// CTRL_Z = SAFE_RANGE, // Starts after the reserved range of keycodes
-// CTRL_X,
-// CTRL_C,
-// CTRL_V,
-// CTRL_Y,
+// UNDO = SAFE_RANGE, // Starts after the reserved range of keycodes
+// CUT,
+// COPY,
+// PASTE,
+// REDO,
 // HALF_PGUP,
 // HALF_PGDN,
 // PREV_WORD,
@@ -247,13 +252,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Store the current modifier state in the variable for later reference
     mod_state = get_mods();
     switch (keycode) {
-        case CTRL_Z: PRESS(KC_LGUI, KC_Z);
-        case CTRL_X: PRESS(KC_LGUI, KC_X);
-        case CTRL_C: PRESS(KC_LGUI, KC_C);
-        case CTRL_V: PRESS(KC_LGUI, KC_V);
-        case CTRL_Y: PRESS(KC_LGUI, KC_Y);
-
-        KC_PGUP
+        // case UNDO: PRESS(KC_LGUI, KC_Z);
+        // case CUT: PRESS(KC_LGUI, KC_X);
+        // case COPY: PRESS(KC_LGUI, KC_C);
+        // case PASTE: PRESS(KC_LGUI, KC_V);
+        // case REDO: PRESS(KC_LGUI, KC_Y);
         case RGB_MOD:
             {
                 if (record->event.pressed && ((get_mods() & (MOD_MASK_CTRL | MOD_MASK_SHIFT)) != 0)) {
